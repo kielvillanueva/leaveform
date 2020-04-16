@@ -61,6 +61,7 @@ app.get('/item/:id', (req, res) => {
 
 });
  
+
 /**Add Item Endpoint */
 app.post('/item', (req, res) => {
   
@@ -83,7 +84,36 @@ app.post('/item', (req, res) => {
     });
 
 });
+ 
 
+/**Update Item Endpoint */
+app.put('/item/:id', (req, res) => {
+  
+    let itemId = req.params.id;
+    let item = req.body;
+  
+    if (!itemId) {
+        return res.status(400).send({ error: item, message: 'Please provide itemId' });
+    }
+    
+    if (!item) {
+        return res.status(400).send({ error: item, message: 'Please provide either name, qty or amount' });
+    }
+  
+    db.query("UPDATE items SET ? WHERE id = ?", [item, itemId], function (error, results, fields) {
+
+        if (error) throw error;
+
+        return res.send({ 
+            code: 200,
+            data: results, 
+            message: 'Item has been updated successfully.' 
+        });
+
+    });
+
+});
+ 
 app.listen(3000, () => {
     console.log('Node app is running on port 3000');
 });
