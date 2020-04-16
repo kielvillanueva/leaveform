@@ -114,6 +114,30 @@ app.put('/item/:id', (req, res) => {
 
 });
  
+
+/**Delete Item Endpoint */
+app.delete('/item/:id', (req, res) => {
+  
+    let itemId = req.params.id;
+  
+    if (!itemId) {
+        return res.status(400).send({ error: true, message: 'Please provide itemId' });
+    }
+
+    db.query('DELETE FROM items WHERE id = ?', [itemId], function (error, results, fields) {
+
+        if (error) throw error;
+
+        return res.send({ 
+            code: 200,
+            data: results, 
+            message: 'Item has been deleted successfully.' 
+        });
+
+    });
+
+}); 
+ 
 app.listen(3000, () => {
     console.log('Node app is running on port 3000');
 });
