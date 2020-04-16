@@ -35,6 +35,31 @@ app.get('/items', (req, res) => {
     });
 
 });
+ 
+ 
+/**Item Endpoint */
+app.get('/item/:id', (req, res) => {
+  
+    let itemId = req.params.id;
+  
+    if (!itemId) {
+        return res.status(400).send({ code: 400, message: 'Please provide ID' });
+    }
+  
+    db.query('SELECT * FROM items where id=?', itemId, function (error, results) {
+
+        if (error) throw error;
+        
+        console.log('Rows Returned: ', results.length);
+        return res.send({ 
+            code: 200,
+            data: results[0], 
+            message: 'Single item.' 
+        });
+
+    });
+
+});
 
 app.listen(3000, () => {
     console.log('Node app is running on port 3000');
