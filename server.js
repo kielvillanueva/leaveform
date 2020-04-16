@@ -60,6 +60,29 @@ app.get('/item/:id', (req, res) => {
     });
 
 });
+ 
+/**Add Item Endpoint */
+app.post('/item', (req, res) => {
+  
+    let item = req.body;
+  
+    if (!item.name || !item.qty || !item.amount) {
+        return res.status(400).send({ code: 400, message: 'Please provide name, qty, amount' });
+    }
+  
+    db.query("INSERT INTO items SET ? ", item, function (error, results, fields) {
+
+        if (error) throw error;
+
+        return res.send({ 
+            code: 200, 
+            data: results, 
+            message: 'Item has been created successfully.' 
+        });
+
+    });
+
+});
 
 app.listen(3000, () => {
     console.log('Node app is running on port 3000');
