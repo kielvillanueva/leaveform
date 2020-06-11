@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                elem = document.getElementById("beginning");
+                elem2 = document.getElementById("ending");
+                var iso = new Date().toISOString();
+                // var minDate = iso.substring(0,iso.length-7) + '00';
+                var minDate = new Date().toISOString().split("T")[0];
+                elem.value = minDate;
+                elem.min = minDate;
+                elem2.value = minDate;
+                elem2.min = minDate;
+
+                const beginning = document.getElementById('beginning');
+                beginning.addEventListener('input', function(e){
+                    var day = new Date(this.value).getUTCDay();
+                    if([6,0].includes(day)){
+                        e.preventDefault();
+                        this.value = '';
+                        alert('Weekends not allowed');
+                    }
+                });
+
+                const ending = document.getElementById('ending');
+                ending.addEventListener('input', function(e){
+                    var day = new Date(this.value).getUTCDay();
+                    if([6,0].includes(day)){
+                        e.preventDefault();
+                        this.value = '';
+                        alert('Weekends not allowed');
+                    }
+                });
+
+                $('input[type=radio][name=type]').change(function() {
+                    if (this.value == 'Half Day') {
+                        $('#endingContainer').hide();
+                    } else {
+                        $('#endingContainer').show();
+                    }
+                });
+
+                if("<%= error%>" !== "false"){
+                    alert('Sorry! ' + "<%= error%>");
+                }
+            });
+        </script>
+    </head>
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron text-center">
+            <h1>Leave Form</h1>
+        </div>
+        <p>Welcome! <strong><%= name %></strong></p>
+
+        <form action="/user/file" method="post" id="form">
+            <div class="col-lg-12">
+                <label class="radio-inline"><input type="radio" name="type" value="Full Day" checked>Full Day</label>
+                <label class="radio-inline"><input type="radio" name="type" value="Half Day">Half Day</label>
+            </div>
+            <br/>
+            <br/>
+            <div class="col-lg-6">
+                <label for="beginning">Beginning Date</label>
+                <input type="date" class="form-control" id="beginning" name="beginning" required=true autofocus=true>
+            </div>
+            <div class="col-lg-6" id="endingContainer">
+                <label for="ending">End Date</label>
+                <input type="date" class="form-control" id="ending" name="ending">
+            </div>
+            <div class="col-lg-12">
+                <br/>
+                <button type="submit" form="form" value="Submit" class="btn">Submit</button>
+            </div>
+        </form>
+        <div class="col-lg-12">
+            <br/>
+            <form action="/user" method="get" id="form2">
+                <button type="submit" form="form2" value="Submit" class="btn">Back</button>
+            </form>
+        </div>
+    
+    </div>
+
+</body>
+</html>

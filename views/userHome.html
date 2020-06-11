@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                if("<%= announcement%>" !== "false"){
+                    alert("<%= announcement%>");
+                }
+            });
+        </script>
+    </head>
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron text-center">
+            <h1>User Home Page</h1>
+        </div>
+        <p>Welcome! <strong><%= name %></strong></p>
+        <p>What would you like to do?</p>
+        <form action="/user/file" method="get" id="form1">
+            <button type="submit" form="form1" value="Submit" class="btn">File for Leave</button>
+        </form>
+        <br/>
+        <form action="/user/leaves" method="get" id="form2">
+            <button type="submit" form="form2" value="Submit" class="btn">View Remaining Leaves</button>
+        </form>
+        <br/>
+        <form action="/" method="get" id="form3">
+            <button type="submit" form="form3" value="Submit" class="btn">Logout</button>
+        </form>
+    
+    </div>
+
+</body>
+</html>
